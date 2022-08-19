@@ -1,22 +1,37 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "../store/board";
+import { deleteTask, editTask } from "../store/board";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
 import close from "../assets/icon-cross.svg";
 
-function AddTask() {
+function EditTask({
+  title,
+  description,
+  subtasks,
+  status,
+  index,
+  setEditTask,
+  board,
+  boardIndex,
+  name,
+}) {
+  const dispatch = useDispatch();
   const data = useSelector((store) => store.board[0].boards);
   const boardName = useSelector((store) => store.board[1]);
-  const dispatch = useDispatch();
-  const taskStatus = useSelector(
-    (store) =>
-      store.board[0].boards.find((board) => board.name === boardName).columns
-  );
+  //   const taskStatus = useSelector(
+  //     (store) =>
+  //       store.board[0].boards.find((board) => board.name === boardName).columns
+  //   );
+  //   const taskIndex = taskStatus.find(stat=> )
   const [newTask, setNewTask] = useState({
-    title: "",
-    description: "",
-    status: taskStatus[0].name,
-    subtasks: [{ title: "", isCompleted: false }],
+    title: title,
+    description: description,
+    status: status,
+    subtasks: data
+      .find((board) => board.name === boardName)
+      .columns.find((col) => col.name === status || col.name === name)
+      .tasks.find((task) => task.title === title).subtasks,
+    colName: name,
   });
   const subsList = [...newTask.subtasks];
 
@@ -46,7 +61,7 @@ function AddTask() {
   const addSubs = () => {
     setNewTask({
       ...newTask,
-      subtasks: [...newTask.subtasks, { name: "", isCompleted: false }],
+      subtasks: [...newTask.subtasks, { title: "", isCompleted: false }],
     });
   };
 
@@ -59,26 +74,34 @@ function AddTask() {
   };
 
   const setOption = (e) => {
-    setNewTask({ ...newTask, status: e.target.value });
+    setNewTask({ ...newTask, status: e.target.value, colName: e.target.value });
   };
 
   const addNewTask = () => {
     console.log(newTask);
-    dispatch(addTask(newTask));
+    if (newTask.status === status) {
+      dispatch(editTask(newTask));
+    } else {
+      dispatch(editTask(newTask));
+      dispatch(deleteTask({ title, status }));
+    }
+    setEditTask(false);
     setNewTask({
-      title: "",
-      description: "",
-      status: taskStatus[0].name,
-      subtasks: [{ title: "", isCompleted: false }],
+      title: title,
+      description: description,
+      status: status,
+      subtasks: subtasks,
+      colName: name,
     });
+    window?.location?.reload();
   };
-  console.log(data);
+  //   console.log(data);
 
   return (
     <>
-      <AddBoardStyle>
-        <div>
-          <h2>Add New Task</h2>
+      <AddBoardStyle className="edit">
+        <div className="container">
+          <h2>Edit Task</h2>
           <form>
             <label htmlFor="title">Title</label>
             <input
@@ -126,9 +149,9 @@ function AddTask() {
               value={newTask.status}
               onChange={setOption}
             >
-              {taskStatus.map((task, index) => (
-                <option key={task.name} value={task.name}>
-                  {task.name}
+              {board.map((brd, index) => (
+                <option key={index} value={brd.name}>
+                  {brd.name}
                 </option>
               ))}
             </select>
@@ -143,4 +166,4 @@ function AddTask() {
   );
 }
 
-export default AddTask;
+export default EditTask;

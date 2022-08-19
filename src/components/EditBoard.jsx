@@ -1,21 +1,27 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addBoard, setBoard } from "../store/board";
+import { useDispatch, useSelector } from "react-redux";
+import { editBoard } from "../store/board";
 import close from "../assets/icon-cross.svg";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
 
-function AddBoard() {
+function EditBoard({ boardName, columns, setEditBoard }) {
   const dispatch = useDispatch();
   const [newBoard, setNewBoard] = useState({
-    name: "",
-    columns: [{ name: "", tasks: [] }],
+    name: boardName,
+    columns: columns,
+    newName: boardName,
   });
   const colList = [...newBoard.columns];
+  const boardIndex = useSelector((store) =>
+    store.board[0].boards.findIndex((brd) => brd.name === boardName)
+  );
+  //   console.log(boardIndex);
 
   const setBoardName = (e) => {
     setNewBoard({
       ...newBoard,
       name: e.target.value,
+      newName: e.target.value,
     });
   };
 
@@ -44,9 +50,10 @@ function AddBoard() {
   };
 
   const addNewBoard = () => {
-    dispatch(addBoard(newBoard));
-    dispatch(setBoard(newBoard.name));
-    setNewBoard({ name: "", columns: [{ name: "", tasks: [] }] });
+    // console.log(boardIndex);
+    dispatch(editBoard(newBoard, boardIndex));
+    window.location.reload();
+    setNewBoard({ name: boardName, columns: columns });
   };
 
   return (
@@ -85,7 +92,7 @@ function AddBoard() {
               </button>
             </div>
             <button type="button" className="btn create" onClick={addNewBoard}>
-              Create New Board
+              Save Changes
             </button>
           </form>
         </div>
@@ -95,4 +102,4 @@ function AddBoard() {
   );
 }
 
-export default AddBoard;
+export default EditBoard;

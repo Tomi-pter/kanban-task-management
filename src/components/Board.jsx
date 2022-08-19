@@ -1,36 +1,256 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { BoardStyle } from "./styled/BoardStyled";
+import { useSelector, useDispatch } from "react-redux";
+import ViewTask from "./ViewTask";
+import { AddBoardStyle, BoardStyle, Dim } from "./styled/BoardStyled";
+import optionBtn from "../assets/icon-vertical-ellipsis.svg";
+import EditTask from "./EditTask";
+import { deleteTask } from "../store/board";
+import EditBoard from "./EditBoard";
 
 function Board() {
+  const dispatch = useDispatch();
   const [board, setBoard] = useState([]);
+  const [addCol, setAddCol] = useState(false);
+  const [viewTask, setViewTask] = useState(false);
+  const [editTask, setEditTask] = useState({
+    options: false,
+    edit: false,
+    delete: false,
+  });
+  const [taskClicked, setTaskClicked] = useState({
+    boardIndex: "",
+    taskIndex: "",
+  });
+  const [editBoard, setEditBoard] = useState(false);
+
   const tasks = useSelector((store) => store.board[0]);
   const boardName = useSelector((store) => store.board[1]);
+  const boardCols = useSelector(
+    (store) =>
+      store.board[0].boards.find((brd) => brd.name === boardName).columns
+  );
+  const boardIndex = useSelector((store) =>
+    store.board[0].boards.findIndex((brd) => brd.name === boardName)
+  );
 
   useEffect(() => {
     setBoard(tasks.boards.find((elem) => elem.name === boardName).columns);
-  }, [tasks, boardName]);
+    console.log(board);
+  }, [tasks.board]);
+
+  useEffect(() => {
+    const circles = document.querySelectorAll(".circle");
+
+    circles.forEach(
+      (circle) =>
+        (circle.style.backgroundColor =
+          `#` + Math.floor(Math.random() * 16777215).toString(16))
+    );
+    // console.log(Math.floor(Math.random() * 16777215).toString(16));
+  });
+
+  const handleTaskClick = (tasks, title, name) => {
+    setTaskClicked({
+      ...taskClicked,
+      boardIndex: board.findIndex((brd) => brd.name === name),
+      taskIndex: tasks.findIndex((task) => task.title === title),
+    });
+    setViewTask(true);
+    console.log(viewTask);
+  };
+
+  const handleOptionsClick = () => {
+    setEditTask({
+      ...editTask,
+      options: true,
+    });
+    console.log(viewTask);
+  };
+
+  const editClicked = (tasks) => {
+    setEditTask({
+      ...editTask,
+      options: false,
+      edit: true,
+    });
+    setViewTask(false);
+    console.log(editTask);
+    console.log(tasks[taskClicked.taskIndex]);
+  };
+
+  const deleteClicked = () => {
+    setEditTask({
+      ...editTask,
+      options: false,
+      delete: true,
+    });
+    setViewTask(false);
+    document.querySelector(".view").style.display = "none";
+  };
+
+  const cancelClicked = () => {
+    setEditTask({
+      ...editTask,
+      delete: false,
+    });
+    document.querySelector(".view").style.display = "flex";
+  };
+
+  const handleTaskDelete = (action) => {
+    dispatch(deleteTask(action));
+    window.location.reload();
+    // setViewTask(false);
+    // setTaskClicked({
+    //   ...taskClicked,
+    //   boardIndex: "",
+    //   taskIndex: "",
+    // });
+    // setEditTask({
+    //   ...editTask,
+    //   options: false,
+    //   edit: false,
+    //   delete: false,
+    // });
+  };
+
+  const handleAddCol = () => {
+    setAddCol(true);
+    setEditBoard(!editBoard);
+  };
 
   return (
-    <BoardStyle>
-      {board.map(({ name, tasks }) => {
-        return (
-          <div className="status" key={name}>
-            <h2>
-              {name} ({tasks.length})
-            </h2>
-            {tasks.map(({ title, subtasks }) => {
-              return (
-                <div className="tasks" key={title}>
-                  <h3>{title}</h3>
-                  <p>0 of {subtasks.length} subs</p>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </BoardStyle>
+    <>
+      <BoardStyle className="mainBoard">
+        {board.map(({ name, tasks }) => {
+          return (
+            <div className="status" key={name}>
+              <h2>
+                <span className="circle"></span> {name} ({tasks.length})
+              </h2>
+              <div className={`status ${tasks.length === 0 ? "empty" : ""}`}>
+                {tasks.map(
+                  ({ title, subtasks, description, status }, index) => {
+                    return (
+                      <div
+                        className="tasks"
+                        key={title}
+                        onClick={() => handleTaskClick(tasks, title, name)}
+                      >
+                        <h3>{title}</h3>
+                        <p>
+                          {subtasks.filter((subs) => subs.isCompleted).length}{" "}
+                          of {subtasks.length} subtasks
+                        </p>
+                        {viewTask &&
+                          board[taskClicked.boardIndex].name === name &&
+                          tasks[taskClicked.taskIndex].title === title && (
+                            <>
+                              <AddBoardStyle className="view">
+                                <ViewTask
+                                  title={title}
+                                  description={description}
+                                  subtasks={subtasks}
+                                  board={board}
+                                  status={name}
+                                  setViewTask={setViewTask}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleOptionsClick}
+                                >
+                                  <img src={optionBtn} alt="options" />
+                                </button>
+                                {editTask.options &&
+                                  board[taskClicked.boardIndex].name === name &&
+                                  tasks[taskClicked.taskIndex].title ===
+                                    title && (
+                                    <AddBoardStyle className="viewOpt">
+                                      <button
+                                        type="button"
+                                        onClick={() => editClicked(tasks)}
+                                      >
+                                        Edit Task
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={deleteClicked}
+                                      >
+                                        Delete Task
+                                      </button>
+                                    </AddBoardStyle>
+                                  )}
+                              </AddBoardStyle>
+                              <Dim className="clicked" />
+                            </>
+                          )}{" "}
+                        {editTask.delete &&
+                          board[taskClicked.boardIndex].name === name &&
+                          tasks[taskClicked.taskIndex].title === title && (
+                            <>
+                              <AddBoardStyle className="delPop">
+                                <h1>Delete this task?</h1>
+                                <p>
+                                  Are you sure you want to delete the '{title}'
+                                  task and its subtasks? This action cannot be
+                                  reversed.
+                                </p>
+                                <div className="btns">
+                                  <button
+                                    onClick={() =>
+                                      handleTaskDelete({
+                                        title,
+                                        status,
+                                        colName: name,
+                                      })
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                  <button type="button" onClick={cancelClicked}>
+                                    Cancel
+                                  </button>
+                                </div>
+                              </AddBoardStyle>
+                              <Dim className="clicked" />
+                            </>
+                          )}
+                        {editTask.edit &&
+                          board[taskClicked.boardIndex].name === name &&
+                          tasks[taskClicked.taskIndex].title === title && (
+                            <>
+                              <EditTask
+                                title={title}
+                                description={description}
+                                subtasks={subtasks}
+                                status={name}
+                                board={board}
+                                index={taskClicked.taskIndex}
+                                boardIndex={taskClicked.boardIndex}
+                                name={name}
+                                setEditTask={setEditTask}
+                              />
+                            </>
+                          )}
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          );
+        })}
+        <div className="addCol status empty">
+          <button onClick={handleAddCol}>+ New Column</button>
+        </div>
+        {addCol && (
+          <EditBoard
+            boardName={boardName}
+            columns={boardCols}
+            boardIndex={boardIndex}
+          />
+        )}
+      </BoardStyle>
+    </>
   );
 }
 

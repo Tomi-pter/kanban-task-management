@@ -1,14 +1,41 @@
+@font-face {
+    font-family: 'PlusJakartaSansRegular';
+    src: url('/src/assets/fonts/PlusJakartaSansRegular.eot');
+    src: url('/src/assets/fonts/PlusJakartaSansRegular.eot') format('embedded-opentype'), url('/src/assets/fonts/PlusJakartaSansRegular.woff2') format('woff2'), url('/src/assets/fonts/PlusJakartaSansRegular.woff') format('woff'), url('/src/assets/fonts/PlusJakartaSansRegular.ttf') format('truetype'), url('/src/assets/fonts/PlusJakartaSansRegular.svg#PlusJakartaSansRegular') format('svg');
+}
+
 :root {
     --white: rgb(255, 255, 255);
     --main-purple: rgb(99, 95, 199);
+    --light-purple: rgba(99, 95, 199, .1);
     --bg-grey: rgb(244, 247, 253);
     --medium-grey: rgb(130, 143, 163);
+    --light-grey: rgba(130, 143, 163, .1);
     --dim: rgba(0, 0, 0, 0.5);
+    --red: rgb(234, 85, 85);
 }
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'PlusJakartaSansRegular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.board,
+.edit {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.board::-webkit-scrollbar,
+.edit::-webkit-scrollbar {
+    display: none;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: 'PlusJakartaSansRegular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }

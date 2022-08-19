@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import data from "../assets/data/data.json";
 
-let currentBoard = "Platform Launch";
+let currentBoard = data.boards[0].name;
 export const initialState = [data, currentBoard];
 
 const boardSlice = createSlice({
@@ -14,11 +14,91 @@ const boardSlice = createSlice({
         addBoard: (state, action) => {
             state[0].boards.push(action.payload);
         },
+        editBoard: (state, action) => {
+            const boardIndex = state[0].boards.findIndex(
+                (brd) => brd.name === action.payload.name
+            );
+
+            state[0].boards.splice(boardIndex, 1, action.payload);
+            state[1] = action.payload.newName;
+        },
+        deleteBoard: (state, action) => {
+            const boardIndex = state[0].boards.findIndex(
+                (brd) => brd.name === action.payload.name
+            );
+
+            state[0].boards.splice(boardIndex, 1);
+            state[1] = state[0].boards[0].name;
+        },
         addTask: (state, action) => {
             state[0].boards
                 .find((board) => board.name === state[1])
                 .columns.find((col) => col.name === action.payload.status)
                 .tasks.push(action.payload);
+        },
+        editTask: (state, action) => {
+            const taskIndex = state[0].boards
+                .find((board) => board.name === state[1])
+                .columns.find(
+                    (col) =>
+                    col.name === action.payload.status ||
+                    col.name === action.payload.colName
+                )
+                .tasks.findIndex((task) => task.title === action.payload.title);
+
+            state[0].boards
+                .find((board) => board.name === state[1])
+                .columns.find(
+                    (col) =>
+                    col.name === action.payload.status ||
+                    col.name === action.payload.colName
+                )
+                .tasks.splice(taskIndex, 1, action.payload);
+        },
+        deleteTask: (state, action) => {
+            const taskIndex = state[0].boards
+                .find((board) => board.name === state[1])
+                .columns.find(
+                    (col) =>
+                    col.name === action.payload.status ||
+                    col.name === action.payload.colName
+                )
+                .tasks.findIndex((task) => task.title === action.payload.title);
+
+            state[0].boards
+                .find((board) => board.name === state[1])
+                .columns.find(
+                    (col) =>
+                    col.name === action.payload.status ||
+                    col.name === action.payload.colName
+                )
+                .tasks.splice(taskIndex, 1);
+        },
+        editSub: (state, action) => {
+            const subIndex = state[0].boards
+                .find((board) => board.name === state[1])
+                .columns.find(
+                    (col) =>
+                    col.name === action.payload.status ||
+                    col.name === action.payload.colName
+                )
+                .tasks.find((task) => task.title === action.payload.title)
+                .subtasks.findIndex(
+                    (sub) => sub.title === action.payload.subTitle.title
+                );
+
+            state[0].boards
+                .find((board) => board.name === state[1])
+                .columns.find(
+                    (col) =>
+                    col.name === action.payload.status ||
+                    col.name === action.payload.colName
+                )
+                .tasks.find((task) => task.title === action.payload.title).subtasks[
+                    subIndex
+                ].isCompleted = action.payload.subTitle.isCompleted;
+
+            console.log(subIndex);
         },
     },
 });
@@ -31,5 +111,14 @@ const boardSlice = createSlice({
 
 console.log(initialState);
 
-export const { setBoard, addBoard, addTask } = boardSlice.actions;
+export const {
+    setBoard,
+    addBoard,
+    editBoard,
+    deleteBoard,
+    addTask,
+    editTask,
+    deleteTask,
+    editSub,
+} = boardSlice.actions;
 export const boardReducer = boardSlice.reducer;

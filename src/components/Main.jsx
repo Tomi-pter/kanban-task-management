@@ -15,7 +15,7 @@ function Main() {
 
   return (
     <>
-      <MainStyle>
+      <MainStyle className="board">
         {/* <EmptyBoard /> */}
         <Board />
         {/* <AddBoard /> */}
