@@ -47,11 +47,12 @@ function AddBoard() {
     dispatch(addBoard(newBoard));
     dispatch(setBoard(newBoard.name));
     setNewBoard({ name: "", columns: [{ name: "", tasks: [] }] });
+    window.location.reload();
   };
 
   return (
     <>
-      <AddBoardStyle>
+      <AddBoardStyle className="edit">
         <div className="container">
           <h2>Add New Board</h2>
           <form>

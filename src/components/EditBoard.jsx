@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editBoard } from "../store/board";
 import close from "../assets/icon-cross.svg";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
@@ -8,13 +8,13 @@ function EditBoard({ boardName, columns, setEditBoard }) {
   const dispatch = useDispatch();
   const [newBoard, setNewBoard] = useState({
     name: boardName,
-    columns: columns,
+    columns: columns ? columns : [{ name: "", tasks: [] }],
     newName: boardName,
   });
   const colList = [...newBoard.columns];
-  const boardIndex = useSelector((store) =>
-    store.board[0].boards.findIndex((brd) => brd.name === boardName)
-  );
+  // const boardIndex = useSelector((store) =>
+  //   store.board[0].boards.findIndex((brd) => brd.name === boardName)
+  // );
   //   console.log(boardIndex);
 
   const setBoardName = (e) => {
@@ -51,16 +51,16 @@ function EditBoard({ boardName, columns, setEditBoard }) {
 
   const addNewBoard = () => {
     // console.log(boardIndex);
-    dispatch(editBoard(newBoard, boardIndex));
+    dispatch(editBoard(newBoard));
     window.location.reload();
     setNewBoard({ name: boardName, columns: columns });
   };
 
   return (
     <>
-      <AddBoardStyle>
+      <AddBoardStyle className="edit">
         <div className="container">
-          <h2>Add New Board</h2>
+          <h2>Edit Board</h2>
           <form>
             <label htmlFor="board_name">Board Name</label>
             <input

@@ -2,12 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 import data from "../assets/data/data.json";
 
 let currentBoard = data.boards[0].name;
-export const initialState = [data, currentBoard];
+let sidebar = true;
+let dark = false;
+export const initialState = [data, currentBoard, sidebar, dark];
 
 const boardSlice = createSlice({
     name: "board",
     initialState,
     reducers: {
+        setBrightness: (state, action) => {
+            state[3] = action.payload;
+        },
+        setSideBar: (state, action) => {
+            state[2] = action.payload;
+        },
         setBoard: (state, action) => {
             state[1] = action.payload;
         },
@@ -28,7 +36,7 @@ const boardSlice = createSlice({
             );
 
             state[0].boards.splice(boardIndex, 1);
-            state[1] = state[0].boards[0].name;
+            state[1] = state[0].boards.length > 0 ? state[0].boards[0].name : "";
         },
         addTask: (state, action) => {
             state[0].boards
@@ -112,6 +120,8 @@ const boardSlice = createSlice({
 console.log(initialState);
 
 export const {
+    setBrightness,
+    setSideBar,
     setBoard,
     addBoard,
     editBoard,

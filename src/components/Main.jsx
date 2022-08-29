@@ -15,7 +15,7 @@ function Main() {
 
   return (
     <>
-      <MainStyle className="board">
+      <MainStyle className="boardContainer">
         {/* <EmptyBoard /> */}
         <Board />
         {/* <AddBoard /> */}

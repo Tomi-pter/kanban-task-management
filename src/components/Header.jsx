@@ -11,7 +11,7 @@ import hide from "../assets/icon-hide-sidebar.svg";
 import show from "../assets/icon-show-sidebar.svg";
 import { Button, HeaderStyle } from "./styled/HeaderStyled";
 import EditBoard from "./EditBoard";
-import { deleteBoard } from "../store/board";
+import { deleteBoard, setSideBar } from "../store/board";
 import SwitchBoard from "./SwitchBoard";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
 import AddTask from "./AddTask";
@@ -21,11 +21,12 @@ function Header() {
   const boardName = useSelector((store) => store.board[1]);
   const boardCols = useSelector(
     (store) =>
-      store.board[0].boards.find((brd) => brd.name === boardName).columns
+      store.board[0].boards.find((brd) => brd.name === boardName)?.columns
   );
   const boardIndex = useSelector((store) =>
     store.board[0].boards.findIndex((brd) => brd.name === boardName)
   );
+  const sideBar = useSelector((store) => store.board[2]);
   // console.log(boardIndex);
 
   const [boardChanged, setBoardChanged] = useState(false);
@@ -35,18 +36,20 @@ function Header() {
     edit: false,
     delete: false,
   });
-  const [sidebar, setSidebar] = useState(true);
+  // const [sidebar, setSidebar] = useState(sideBar)
 
   const handleBtnClick = () => {
     setEditBoard({
       ...editBoard,
       options: true,
     });
+    document.querySelector(".dim").classList.add("clicked");
   };
 
   const editClicked = () => {
     setEditBoard({
       ...editBoard,
+      options: false,
       edit: true,
     });
   };
@@ -55,6 +58,8 @@ function Header() {
     setEditBoard({
       ...editBoard,
       delete: true,
+      options: false,
+      edit: false,
     });
   };
 
@@ -71,11 +76,21 @@ function Header() {
   };
 
   const handleBoardChange = () => {
-    setBoardChanged(true);
+    boardChanged ? setBoardChanged(false) : setBoardChanged(true);
   };
 
   const handleAddTask = () => {
     setAddTask(true);
+  };
+
+  const handleDimClicked = () => {
+    setEditBoard({
+      ...editBoard,
+      delete: false,
+      edit: false,
+      options: false,
+    });
+    document.querySelector(".dim").classList.remove("clicked");
   };
 
   useEffect(() => {
@@ -83,22 +98,33 @@ function Header() {
   }, []);
 
   const handleSidebar = () => {
-    setSidebar(!sidebar);
-    sidebar
-      ? document.querySelector(".mainBoard").classList.remove("sideBar")
-      : document.querySelector(".mainBoard").classList.add("sideBar");
+    dispatch(setSideBar(!sideBar));
   };
+
+  useEffect(() => {
+    sideBar && document.querySelector(".emptyBoard")?.classList.add("sidebar");
+  });
+
+  useEffect(() => {
+    if (sideBar) {
+      document.querySelector(".mainBoard").classList.add("sideBar");
+      document.querySelector(".emptyBoard")?.classList.add("sidebar");
+    } else {
+      document.querySelector(".mainBoard").classList.remove("sideBar");
+      document.querySelector(".emptyBoard")?.classList.remove("sidebar");
+    }
+  }, [sideBar]);
 
   return (
     <>
-      <HeaderStyle>
+      <HeaderStyle className="head">
         <div className="desktop">
-          <aside className={`desk ${sidebar ? "active" : ""}`}>
+          <aside className={`desk ${sideBar ? "active" : ""}`}>
             <div className="sideLogo">
               <img src={logoLight} alt="logo" className="logo desktop dark" />
               <img src={logoDark} alt="logo" className="logo desktop light" />
             </div>
-            <SwitchBoard sidebar={sidebar} />
+            <SwitchBoard sidebar={sideBar} />
             <div className="hide">
               <button onClick={handleSidebar}>
                 <img src={hide} alt="hide sidebar" />
@@ -106,14 +132,14 @@ function Header() {
               </button>
             </div>
           </aside>
-          <div className={`show ${sidebar ? "" : "active"}`}>
+          <div className={`show ${sideBar ? "" : "active"}`}>
             <button onClick={handleSidebar}>
               <img src={show} alt="show sidebar" />
             </button>
           </div>
         </div>
         <div className="container">
-          <div className={`logoNav ${sidebar ? "active" : ""}`}>
+          <div className={`logoNav ${sideBar ? "active" : ""}`}>
             <div className="logoContainer">
               <img src={logoMobile} alt="logo" className="logo mobile" />
               <img src={logoLight} alt="logo" className="logo desktop dark" />
@@ -124,7 +150,9 @@ function Header() {
               <button onClick={handleBoardChange}>
                 <img src={boardChanged ? up : down} alt="" />
               </button>
-              {boardChanged && <SwitchBoard />}
+              {boardChanged && (
+                <SwitchBoard setBoardChanged={setBoardChanged} />
+              )}
             </nav>
           </div>
           <div className="add">
@@ -145,7 +173,6 @@ function Header() {
                     Delete Board
                   </button>
                 </AddBoardStyle>
-                <Dim className="clicked" />
               </>
             )}
             {editBoard.edit && (
@@ -165,23 +192,26 @@ function Header() {
                     This action will remove all columns and tasks and cannot be
                     reversed.
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => handleBoardDelete({ name: boardName })}
-                  >
-                    Delete
-                  </button>
-                  <button type="button" onClick={cancelClicked}>
-                    Cancel
-                  </button>
+                  <div className="btns">
+                    <button
+                      type="button"
+                      onClick={() => handleBoardDelete({ name: boardName })}
+                    >
+                      Delete
+                    </button>
+                    <button type="button" onClick={cancelClicked}>
+                      Cancel
+                    </button>
+                  </div>
                 </AddBoardStyle>
-                <Dim className="clicked" />
+                {/* <Dim className="clicked" /> */}
               </>
             )}
           </div>
         </div>
+        <Dim className="dim" onClick={handleDimClicked} />
+        {addTask && <AddTask setAddTask={setAddTask} />}
       </HeaderStyle>
-      {addTask && <AddTask />}
     </>
   );
 }

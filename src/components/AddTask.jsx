@@ -4,7 +4,7 @@ import { addTask } from "../store/board";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
 import close from "../assets/icon-cross.svg";
 
-function AddTask() {
+function AddTask({ setAddTask }) {
   const data = useSelector((store) => store.board[0].boards);
   const boardName = useSelector((store) => store.board[1]);
   const dispatch = useDispatch();
@@ -74,9 +74,13 @@ function AddTask() {
   };
   console.log(data);
 
+  const handleDimClicked = () => {
+    setAddTask(false);
+  };
+
   return (
     <>
-      <AddBoardStyle>
+      <AddBoardStyle className="addTask">
         <div>
           <h2>Add New Task</h2>
           <form>
@@ -138,7 +142,7 @@ function AddTask() {
           </form>
         </div>
       </AddBoardStyle>
-      <Dim className="clicked" />
+      <Dim className="clicked" onClick={handleDimClicked} />
     </>
   );
 }

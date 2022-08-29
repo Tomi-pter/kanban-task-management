@@ -8,6 +8,73 @@ export const HeaderStyle = styled.header`
   width: 100vw;
   z-index: 10;
 
+  &.dark {
+    background-color: var(--bg-50dark);
+
+    .view,
+    .viewOpt,
+    .delPop,
+    select,
+    .edit,
+    input,
+    textarea,
+    .switch,
+    .addTask {
+      background-color: var(--bg-dark);
+
+      h2,
+      button,
+      select,
+      input,
+      textarea {
+        color: var(--white);
+      }
+
+      span {
+        color: var(--medium-grey);
+      }
+      button.active span {
+        color: var(--white);
+      }
+
+      ::placeholder {
+        color: var(--bg-grey);
+      }
+    }
+
+    .delPop {
+      h1 {
+        color: var(--red) !important;
+      }
+      p {
+        color: var(--medium-grey);
+      }
+    }
+
+    .edit,
+    .addTask {
+      label {
+        color: var(--medium-grey);
+      }
+      button {
+        font-weight: 800;
+      }
+      .add {
+        background-color: var(--white);
+        color: var(--main-purple);
+      }
+    }
+
+    .delPop {
+      button {
+        font-weight: 800;
+      }
+      .btns button:last-child {
+        background-color: var(--white);
+      }
+    }
+  }
+
   .container {
     max-width: 90%;
     margin: 0 auto;
@@ -20,6 +87,12 @@ export const HeaderStyle = styled.header`
     @media screen and (min-width: 641px) {
       max-width: 100%;
       padding: 1rem 2rem;
+    }
+  }
+
+  &.dark .container {
+    h1 {
+      color: white;
     }
   }
 
@@ -72,8 +145,18 @@ export const HeaderStyle = styled.header`
       margin-right: 1rem;
       padding-right: 1rem;
     }
-    .dark {
+    img.dark {
       display: none;
+    }
+    &.dark {
+      img.dark {
+        display: unset;
+      }
+      img.light {
+        display: none;
+      }
+    }
+    .delPop {
     }
     .desk {
       height: 100vh;
@@ -85,17 +168,17 @@ export const HeaderStyle = styled.header`
       background-color: var(--white);
       border-right: none;
       z-index: -1;
-      transition: all 500ms;
+      transition: width 500ms, z-index 500ms, border-right 500ms;
 
       .sideLogo {
         opacity: 0;
         width: 0;
-        transition: all 500ms;
+        transition: opacity 500ms, width 500ms;
       }
 
       .hide {
         position: absolute;
-        top: 85vh;
+        top: 90vh;
         margin-left: 1rem;
         opacity: 0;
         z-index: -1;
@@ -130,10 +213,30 @@ export const HeaderStyle = styled.header`
         }
       }
     }
+
+    .desktop.dark {
+      img.dark {
+        display: unset;
+      }
+      img.light {
+        display: none;
+      }
+      .desk,
+      .switch {
+        background-color: var(--bg-50dark);
+
+        h2,
+        .hide,
+        .hide span {
+          color: var(--medium-grey);
+        }
+      }
+    }
+
     .show {
       position: absolute;
       left: 0;
-      top: 85vh;
+      top: 90vh;
       background-color: var(--main-purple);
       border-top-right-radius: 50%;
       border-bottom-right-radius: 50%;
@@ -163,6 +266,17 @@ export const HeaderStyle = styled.header`
       img {
         display: none;
       }
+    }
+    .logoNav nav::before {
+      content: "";
+      width: 1px;
+      height: 64.65px;
+      background-color: var(--light-purple);
+      position: absolute;
+      left: -25px;
+    }
+    .logoNav.active nav::before {
+      display: none;
     }
     .logoNav.active nav {
       transform: translateX(300px);

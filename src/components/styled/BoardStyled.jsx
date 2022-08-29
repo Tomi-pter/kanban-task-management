@@ -9,17 +9,94 @@ export const MainStyle = styled.main`
   align-items: center;
   position: relative;
   overflow: auto;
+  margin-top: -1px;
+
+  &.dark {
+    background-color: var(--bg-dark);
+
+    h2 {
+      color: var(--medium-grey);
+    }
+
+    .tasks {
+      background-color: var(--bg-50dark);
+
+      h3 {
+        color: var(--white);
+      }
+      p {
+        color: var(--medium-grey);
+      }
+    }
+
+    .view,
+    .viewOpt,
+    .delPop,
+    select,
+    .edit,
+    input,
+    textarea,
+    .switch,
+    .addTask {
+      background-color: var(--bg-dark);
+
+      h2,
+      button,
+      select,
+      input,
+      textarea {
+        color: var(--white);
+      }
+
+      ::placeholder {
+        color: var(--bg-grey);
+      }
+    }
+
+    .edit,
+    .addTask {
+      label {
+        color: var(--medium-grey);
+      }
+      button {
+        font-weight: 800;
+      }
+      .add {
+        background-color: var(--white);
+        color: var(--main-purple);
+      }
+    }
+
+    .delPop {
+      button {
+        font-weight: 800;
+      }
+      .btns button:last-child {
+        background-color: var(--white);
+      }
+    }
+  }
 `;
 
 export const Empty = styled.section`
-  margin: auto;
-  max-width: 90%;
-  margin: 0 auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  &.emptyBoard {
+    margin-left: 0;
+    transition: all 500ms;
+  }
+
+  &.emptyBoard.sidebar {
+    margin-left: 150px;
+  }
 
   h2 {
     font-size: 1.125rem;
@@ -62,6 +139,11 @@ export const BoardStyle = styled.section`
     flex-direction: column;
     width: 17.5rem;
     gap: 1.5rem;
+
+    > h2 {
+      text-transform: uppercase;
+      letter-spacing: 2.4px;
+    }
   }
 
   .tasks {
@@ -87,7 +169,7 @@ export const BoardStyle = styled.section`
     border-radius: 0.5rem;
   }
   .addCol {
-    margin-top: 3.5rem;
+    margin-top: 2.75rem;
   }
   .addCol button {
     margin: auto;
@@ -115,10 +197,16 @@ export const AddBoardStyle = styled.section`
   transform: translate(-50%, -50%);
   width: 70%;
   border-radius: 0.5rem;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   padding-right: 1rem;
   z-index: 100;
   background-color: var(--white);
+
+  h2,
+  button {
+    color: var(--medium-grey);
+    margin-top: 0;
+  }
 
   &.switch {
     position: absolute;
@@ -131,7 +219,6 @@ export const AddBoardStyle = styled.section`
       margin: 0 0 1rem;
       padding: 1.5rem 0 0 1.5rem;
       font-size: 0.75rem;
-      color: var(--medium-grey);
       letter-spacing: 2.4px;
     }
     button {
@@ -139,7 +226,6 @@ export const AddBoardStyle = styled.section`
       padding-inline: 1.5rem 0;
       width: 100%;
       text-align: left;
-      color: var(--medium-grey);
       font-weight: 700;
       font-size: 0.95rem;
       display: flex;
@@ -187,7 +273,6 @@ export const AddBoardStyle = styled.section`
       margin: 0 0 1rem;
       padding: 1.5rem 0 0 1.5rem;
       font-size: 0.75rem;
-      color: var(--medium-grey);
       letter-spacing: 2.4px;
     }
     button {
@@ -195,7 +280,6 @@ export const AddBoardStyle = styled.section`
       padding-inline: 1.5rem 0;
       width: 100%;
       text-align: left;
-      color: var(--medium-grey);
       font-weight: 700;
       font-size: 0.95rem;
       display: flex;
@@ -230,8 +314,10 @@ export const AddBoardStyle = styled.section`
     }
   }
 
-  &.switch.hideBar * {
-    display: none;
+  @media screen and (min-width: 641px) {
+    &.switch.hideBar * {
+      display: none;
+    }
   }
 
   &.edit {
@@ -240,6 +326,18 @@ export const AddBoardStyle = styled.section`
   @media screen and (max-height: 800px) {
     &.edit {
       bottom: -30%;
+      top: 55%;
+    }
+    &.addTask {
+      bottom: -40%;
+    }
+  }
+
+  &.addTask {
+    overflow: auto;
+
+    h2 {
+      margin: 0 0 1rem;
     }
   }
 
@@ -412,6 +510,85 @@ export const AddBoardStyle = styled.section`
       line-height: 15px;
     }
   }
+
+  &.dark {
+    background-color: var(--bg-dark);
+
+    h2,
+    button {
+      color: var(--white);
+    }
+  }
+
+  .darkToggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-left: 1rem;
+    background-color: var(--light-purple);
+    border-radius: 0.25rem;
+
+    img {
+      max-width: unset;
+      max-height: unset;
+    }
+
+    @media screen and (min-width: 641px) {
+      padding: 0.25rem 1.5rem;
+      position: absolute;
+      top: 77.5vh;
+    }
+
+    .toggleCheck {
+      margin-inline: 2rem;
+      position: relative;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: -70%;
+      right: 0;
+      bottom: 0;
+      width: 50px;
+      background: linear-gradient(
+        to right,
+        hsl(236, 72%, 79%),
+        hsl(237, 63%, 64%)
+      );
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0.5px 0.5px 1px hsl(237, 63%, 64%);
+      opacity: 0.6;
+    }
+
+    input.checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    &.dark .darkToggle {
+      background-color: var(--bg-dark);
+    }
+  }
 `;
 
 export const Dim = styled.div`
@@ -429,10 +606,10 @@ export const Dim = styled.div`
     visibility: visible;
     height: 100vh;
   }
-  &.headClicked {
+  /* &.headClicked {
     z-index: 7;
-  }
-  &.switch {
+  } */
+  &.switchBrd {
     position: absolute;
     top: 100%;
   }
