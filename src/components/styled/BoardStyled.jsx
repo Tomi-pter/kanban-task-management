@@ -108,6 +108,11 @@ export const Empty = styled.section`
     font-size: 0.9rem;
     color: var(--white);
     padding-block: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  Button:hover {
+    background-color: var(--main-50purple);
   }
 `;
 
@@ -153,6 +158,13 @@ export const BoardStyle = styled.section`
     padding: 1.5rem 1rem;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.125);
+
+    &:hover {
+      cursor: pointer;
+      h3 {
+        color: var(--main-purple);
+      }
+    }
 
     h3 {
       margin: 0.5rem 0;
@@ -251,12 +263,27 @@ export const AddBoardStyle = styled.section`
     button :first-child {
       margin-right: 0.75rem;
     }
-    button:last-child * {
+    .createNew * {
       color: var(--main-purple);
       fill: var(--main-purple);
     }
-    button:last-child img {
+    .createNew img {
       filter: hue-rotate(32deg) saturate(8.5) brightness(0.6);
+    }
+    .brdNames {
+      overflow: auto;
+      max-height: 55vh;
+
+      @media screen and (max-height: 800px) {
+        max-height: 40vh;
+      }
+
+      button:hover {
+        background-color: var(--light-purple);
+        color: var(--main-purple);
+        border-top-right-radius: 1.5rem;
+        border-bottom-right-radius: 1.5rem;
+      }
     }
   }
 
@@ -305,11 +332,11 @@ export const AddBoardStyle = styled.section`
     button :first-child {
       margin-right: 0.75rem;
     }
-    button:last-child * {
+    .createNew * {
       color: var(--main-purple);
       fill: var(--main-purple);
     }
-    button:last-child img {
+    .createNew img {
       filter: hue-rotate(32deg) saturate(8.5) brightness(0.6);
     }
   }
@@ -442,6 +469,15 @@ export const AddBoardStyle = styled.section`
     border-radius: 0.25rem;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
+
+    &:not([type="checkbox"]):focus {
+      border: 1px solid var(--main-purple);
+      outline: 1px solid var(--main-purple);
+    }
+  }
+
+  input.error {
+    border: 1px red solid;
   }
 
   select {
@@ -476,6 +512,9 @@ export const AddBoardStyle = styled.section`
     color: var(--white);
     background-color: var(--main-purple);
     margin: 1rem 0;
+  }
+  .create:hover {
+    background-color: var(--main-50purple);
   }
 
   .container {
@@ -538,6 +577,10 @@ export const AddBoardStyle = styled.section`
       padding: 0.25rem 1.5rem;
       position: absolute;
       top: 77.5vh;
+    }
+
+    @media screen and (max-height: 800px) {
+      top: 65vh;
     }
 
     .toggleCheck {

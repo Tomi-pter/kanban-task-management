@@ -4,7 +4,7 @@ import { addBoard, setBoard } from "../store/board";
 import close from "../assets/icon-cross.svg";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
 
-function AddBoard() {
+function AddBoard({ setAddBoard }) {
   const dispatch = useDispatch();
   const [newBoard, setNewBoard] = useState({
     name: "",
@@ -44,10 +44,14 @@ function AddBoard() {
   };
 
   const addNewBoard = () => {
-    dispatch(addBoard(newBoard));
-    dispatch(setBoard(newBoard.name));
-    setNewBoard({ name: "", columns: [{ name: "", tasks: [] }] });
-    window.location.reload();
+    if (newBoard.columns.every((col) => col.name.length > 0)) {
+      dispatch(addBoard(newBoard));
+      dispatch(setBoard(newBoard.name));
+      setNewBoard({ name: "", columns: [{ name: "", tasks: [] }] });
+      setAddBoard(false);
+      document.querySelector(".switch").style.display = "block";
+    }
+    // window.location.reload();
   };
 
   return (
@@ -64,6 +68,7 @@ function AddBoard() {
               placeholder="e.g. Web Design"
               value={newBoard.name}
               onChange={setBoardName}
+              required
             />
             <div className="columns">
               <label htmlFor="">Board Columns</label>
@@ -75,6 +80,7 @@ function AddBoard() {
                     id="name"
                     value={col.name}
                     onChange={(e) => setColName(e, index)}
+                    required
                   />
                   <button type="button" onClick={() => delColumn(index)}>
                     <img src={close} alt="close" />
@@ -85,7 +91,7 @@ function AddBoard() {
                 + Add New Column
               </button>
             </div>
-            <button type="button" className="btn create" onClick={addNewBoard}>
+            <button type="submit" className="btn create" onClick={addNewBoard}>
               Create New Board
             </button>
           </form>

@@ -4,7 +4,8 @@ import data from "../assets/data/data.json";
 let currentBoard = data.boards[0].name;
 let sidebar = true;
 let dark = false;
-export const initialState = [data, currentBoard, sidebar, dark];
+let disabled = false;
+export const initialState = [data, currentBoard, sidebar, dark, disabled];
 
 const boardSlice = createSlice({
     name: "board",
@@ -15,6 +16,9 @@ const boardSlice = createSlice({
         },
         setSideBar: (state, action) => {
             state[2] = action.payload;
+        },
+        setDisabled: (state, action) => {
+            state[4] = action.payload;
         },
         setBoard: (state, action) => {
             state[1] = action.payload;
@@ -122,6 +126,7 @@ console.log(initialState);
 export const {
     setBrightness,
     setSideBar,
+    setDisabled,
     setBoard,
     addBoard,
     editBoard,

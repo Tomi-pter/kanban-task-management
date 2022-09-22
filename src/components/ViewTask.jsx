@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editTask, deleteTask, editSub } from "../store/board";
+import { editSub } from "../store/board";
 
 function ViewTask({
   title,
@@ -37,7 +37,8 @@ function ViewTask({
   // const subsList = [...newTask.subtasks];
 
   useEffect(() => {
-    setSubList(columns.tasks.find((task) => task.title === title).subtasks);
+    setSubList(columns.tasks.find((task) => task.title === title)?.subtasks);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns.tasks]);
 
   // const handleSubCheck = (title, isCompleted) => {

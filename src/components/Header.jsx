@@ -27,6 +27,7 @@ function Header() {
     store.board[0].boards.findIndex((brd) => brd.name === boardName)
   );
   const sideBar = useSelector((store) => store.board[2]);
+  const disabled = useSelector((store) => store.board[4]);
   // console.log(boardIndex);
 
   const [boardChanged, setBoardChanged] = useState(false);
@@ -107,13 +108,23 @@ function Header() {
 
   useEffect(() => {
     if (sideBar) {
-      document.querySelector(".mainBoard").classList.add("sideBar");
+      document.querySelector(".mainBoard")?.classList.add("sideBar");
       document.querySelector(".emptyBoard")?.classList.add("sidebar");
+      document.querySelector(".emptyApp")?.classList.add("sidebar");
     } else {
-      document.querySelector(".mainBoard").classList.remove("sideBar");
+      document.querySelector(".mainBoard")?.classList.remove("sideBar");
       document.querySelector(".emptyBoard")?.classList.remove("sidebar");
+      document.querySelector(".emptyApp")?.classList.remove("sidebar");
     }
   }, [sideBar]);
+
+  const currentBoard = useSelector((store) => store.board[0].boards);
+  const [optDisabled, setOptDisabled] = useState(false);
+
+  useEffect(() => {
+    currentBoard.length === 0 && setOptDisabled(true);
+    currentBoard.length > 0 && setOptDisabled(false);
+  }, [currentBoard.length]);
 
   return (
     <>
@@ -156,11 +167,15 @@ function Header() {
             </nav>
           </div>
           <div className="add">
-            <Button onClick={handleAddTask}>
+            <Button onClick={handleAddTask} id="addNewTask" disabled={disabled}>
               <img src={add} alt="add task" />{" "}
               <span className="desktop">Add New Task</span>
             </Button>
-            <button type="button" onClick={handleBtnClick}>
+            <button
+              type="button"
+              onClick={handleBtnClick}
+              disabled={optDisabled}
+            >
               <img src={options} alt="options" />
             </button>
             {editBoard.options && (

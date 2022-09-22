@@ -71,6 +71,7 @@ function AddTask({ setAddTask }) {
       status: taskStatus[0].name,
       subtasks: [{ title: "", isCompleted: false }],
     });
+    setAddTask(false);
   };
   console.log(data);
 

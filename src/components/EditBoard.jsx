@@ -51,9 +51,18 @@ function EditBoard({ boardName, columns, setEditBoard }) {
 
   const addNewBoard = () => {
     // console.log(boardIndex);
-    dispatch(editBoard(newBoard));
-    window.location.reload();
-    setNewBoard({ name: boardName, columns: columns });
+    if (newBoard.columns.every((col) => col.name.length > 0)) {
+      dispatch(editBoard(newBoard));
+      // window.location.reload();
+      setEditBoard({
+        ...editBoard,
+        delete: false,
+        edit: false,
+        options: false,
+      });
+      document.querySelector(".dim").classList.remove("clicked");
+      setNewBoard({ name: boardName, columns: columns });
+    }
   };
 
   return (
@@ -70,6 +79,7 @@ function EditBoard({ boardName, columns, setEditBoard }) {
               placeholder="e.g. Web Design"
               value={newBoard.name}
               onChange={setBoardName}
+              required
             />
             <div className="columns">
               <label htmlFor="">Board Columns</label>
@@ -81,6 +91,7 @@ function EditBoard({ boardName, columns, setEditBoard }) {
                     id="name"
                     value={col.name}
                     onChange={(e) => setColName(e, index)}
+                    required
                   />
                   <button type="button" onClick={() => delColumn(index)}>
                     <img src={close} alt="close" />
@@ -91,7 +102,7 @@ function EditBoard({ boardName, columns, setEditBoard }) {
                 + Add New Column
               </button>
             </div>
-            <button type="button" className="btn create" onClick={addNewBoard}>
+            <button type="submit" className="btn create" onClick={addNewBoard}>
               Save Changes
             </button>
           </form>

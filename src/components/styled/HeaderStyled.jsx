@@ -8,6 +8,11 @@ export const HeaderStyle = styled.header`
   width: 100vw;
   z-index: 10;
 
+  .add button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
   &.dark {
     background-color: var(--bg-50dark);
 
@@ -178,11 +183,24 @@ export const HeaderStyle = styled.header`
 
       .hide {
         position: absolute;
-        top: 90vh;
-        margin-left: 1rem;
+        top: 88vh;
+        padding-left: 1rem;
         opacity: 0;
         z-index: -1;
         transition: all 500ms;
+        padding-block: 1rem;
+        padding-right: 3rem;
+
+        &:hover {
+          background-color: var(--light-purple);
+          border-top-right-radius: 1.5rem;
+          border-bottom-right-radius: 1.5rem;
+          padding-right: 3rem;
+
+          span {
+            color: var(--main-purple);
+          }
+        }
 
         button {
           display: none;
@@ -242,7 +260,11 @@ export const HeaderStyle = styled.header`
       border-bottom-right-radius: 50%;
       z-index: -1;
       opacity: 0;
-      transition: all 1s;
+      transition: all 500ms;
+
+      &:hover {
+        background-color: var(--main-50purple);
+      }
 
       &.active {
         opacity: 1;
@@ -289,4 +311,8 @@ export const Button = styled.button`
   background-color: var(--main-purple);
   border-radius: 1.5rem;
   padding: 0.5rem 1.125rem;
+
+  &:hover {
+    background-color: var(--main-50purple);
+  }
 `;

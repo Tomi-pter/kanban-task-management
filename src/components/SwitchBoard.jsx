@@ -18,9 +18,9 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
 
   const pickBoard = (name) => {
     dispatch(setBoard(name));
-    window.location.reload();
+    // window.location.reload();
   };
-  console.log(boards);
+  // console.log(boards);
 
   const [addBoard, setAddBoard] = useState(false);
   const [darkMode, setDarkMode] = useState(dark);
@@ -62,18 +62,24 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
         <div>
           <h2>ALL BOARDS ({boards.length})</h2>
           <div>
-            {boards.map((board) => (
-              <button
-                type="button"
-                key={board.name}
-                onClick={() => pickBoard(board.name)}
-                className={board.name === activeBoard ? "active" : ""}
-              >
-                <img src={boardBtn} alt=" " />
-                <span>{board.name}</span>
-              </button>
-            ))}
-            <button type="button" onClick={handleAddBoardClicked}>
+            <div className="brdNames">
+              {boards.map((board) => (
+                <button
+                  type="button"
+                  key={board.name}
+                  onClick={() => pickBoard(board.name)}
+                  className={board.name === activeBoard ? "active" : ""}
+                >
+                  <img src={boardBtn} alt=" " />
+                  <span>{board.name}</span>
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={handleAddBoardClicked}
+              className="createNew"
+            >
               <img src={boardBtn} alt=" " />
               <span>+ Create New Board</span>
             </button>
@@ -100,7 +106,7 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
           </div>
         </div>
       </AddBoardStyle>
-      {addBoard && <AddBoard />}
+      {addBoard && <AddBoard setAddBoard={setAddBoard} />}
       <Dim className="clicked switchBrd" onClick={handleDimClicked} />
     </>
   );

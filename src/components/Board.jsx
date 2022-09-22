@@ -4,7 +4,7 @@ import ViewTask from "./ViewTask";
 import { AddBoardStyle, BoardStyle, Dim } from "./styled/BoardStyled";
 import optionBtn from "../assets/icon-vertical-ellipsis.svg";
 import EditTask from "./EditTask";
-import { deleteTask, setSideBar } from "../store/board";
+import { deleteTask, setDisabled, setSideBar } from "../store/board";
 import EditBoard from "./EditBoard";
 import EmptyBoard from "./EmptyBoard";
 
@@ -40,8 +40,7 @@ function Board() {
       stateBoard.boards.find((elem) => elem.name === boardName)?.columns
     );
     console.log(board);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stateBoard.boards]);
+  }, [board, boardName, stateBoard.boards]);
 
   const colors = [
     "#49c4e5",
@@ -117,7 +116,6 @@ function Board() {
   const handleTaskDelete = (action) => {
     dispatch(deleteTask(action));
     window.location.reload();
-    // setViewTask(false);
     // setTaskClicked({
     //   ...taskClicked,
     //   boardIndex: "",
@@ -129,6 +127,7 @@ function Board() {
     //   edit: false,
     //   delete: false,
     // });
+    // setViewTask(false);
   };
 
   const handleDimClicked = () => {
@@ -145,6 +144,7 @@ function Board() {
       edit: false,
       delete: false,
     });
+    document.querySelector("header").style.zIndex = 10;
   };
 
   const handleAddCol = () => {
@@ -153,136 +153,133 @@ function Board() {
     setEditBoard(!editBoard);
   };
 
+  useEffect(() => {
+    board.length > 0 && dispatch(setDisabled(false));
+    board.length === 0 && dispatch(setDisabled(true));
+  }, [board.length, dispatch]);
+
   return (
     <>
       <BoardStyle className="mainBoard">
-        {board ? (
-          board.map(({ name, tasks }) =>
-            board.some((brd) => brd.name.length > 0) ? (
-              <div className="status" key={name}>
-                <h2>
-                  <span className="circle"></span> {name} ({tasks.length})
-                </h2>
-                <div className={`status ${tasks.length === 0 ? "empty" : ""}`}>
-                  {tasks.map(
-                    ({ title, subtasks, description, status }, index) => {
-                      return (
-                        <div
-                          className="tasks"
-                          key={title}
-                          onClick={() => handleTaskClick(tasks, title, name)}
-                        >
-                          <h3>{title}</h3>
-                          <p>
-                            {subtasks.filter((subs) => subs.isCompleted).length}{" "}
-                            of {subtasks.length} subtasks
-                          </p>
-                          {viewTask &&
-                            board[taskClicked.boardIndex].name === name &&
-                            tasks[taskClicked.taskIndex].title === title && (
-                              <>
-                                <AddBoardStyle className="view">
-                                  <ViewTask
-                                    title={title}
-                                    description={description}
-                                    subtasks={subtasks}
-                                    board={board}
-                                    status={name}
-                                    setViewTask={setViewTask}
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={handleOptionsClick}
-                                  >
-                                    <img src={optionBtn} alt="options" />
-                                  </button>
-                                  {editTask.options &&
-                                    board[taskClicked.boardIndex].name ===
-                                      name &&
-                                    tasks[taskClicked.taskIndex].title ===
-                                      title && (
-                                      <AddBoardStyle className="viewOpt">
-                                        <button
-                                          type="button"
-                                          onClick={() => editClicked(tasks)}
-                                        >
-                                          Edit Task
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={deleteClicked}
-                                        >
-                                          Delete Task
-                                        </button>
-                                      </AddBoardStyle>
-                                    )}
-                                </AddBoardStyle>
-                              </>
-                            )}{" "}
-                          {editTask.delete &&
-                            board[taskClicked.boardIndex].name === name &&
-                            tasks[taskClicked.taskIndex].title === title && (
-                              <>
-                                <AddBoardStyle className="delPop">
-                                  <h1>Delete this task?</h1>
-                                  <p>
-                                    Are you sure you want to delete the '{title}
-                                    ' task and its subtasks? This action cannot
-                                    be reversed.
-                                  </p>
-                                  <div className="btns">
-                                    <button
-                                      onClick={() =>
-                                        handleTaskDelete({
-                                          title,
-                                          status,
-                                          colName: name,
-                                        })
-                                      }
-                                    >
-                                      Delete
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={cancelClicked}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </AddBoardStyle>
-                              </>
-                            )}
-                          {editTask.edit &&
-                            board[taskClicked.boardIndex].name === name &&
-                            tasks[taskClicked.taskIndex].title === title && (
-                              <>
-                                <EditTask
+        {board.length > 0 ? (
+          board.map(({ name, tasks }) => (
+            <div className="status" key={name}>
+              <h2>
+                <span className="circle"></span> {name} ({tasks.length})
+              </h2>
+              <div className={`status ${tasks?.length === 0 ? "empty" : ""}`}>
+                {tasks?.map(
+                  ({ title, subtasks, description, status }, index) => {
+                    return (
+                      <div
+                        className="tasks"
+                        key={title}
+                        onClick={() => handleTaskClick(tasks, title, name)}
+                      >
+                        <h3>{title}</h3>
+                        <p>
+                          {subtasks.filter((subs) => subs.isCompleted).length}{" "}
+                          of {subtasks.length} subtasks
+                        </p>
+                        {viewTask &&
+                          board[taskClicked.boardIndex].name === name &&
+                          tasks[taskClicked.taskIndex].title === title && (
+                            <>
+                              <AddBoardStyle className="view">
+                                <ViewTask
                                   title={title}
                                   description={description}
                                   subtasks={subtasks}
-                                  status={name}
                                   board={board}
-                                  index={taskClicked.taskIndex}
-                                  boardIndex={taskClicked.boardIndex}
-                                  name={name}
-                                  setEditTask={setEditTask}
+                                  status={name}
+                                  setViewTask={setViewTask}
                                 />
-                              </>
-                            )}
-                        </div>
-                      );
-                    }
-                  )}
-                </div>
+                                <button
+                                  type="button"
+                                  onClick={handleOptionsClick}
+                                >
+                                  <img src={optionBtn} alt="options" />
+                                </button>
+                                {editTask.options &&
+                                  board[taskClicked.boardIndex].name === name &&
+                                  tasks[taskClicked.taskIndex].title ===
+                                    title && (
+                                    <AddBoardStyle className="viewOpt">
+                                      <button
+                                        type="button"
+                                        onClick={() => editClicked(tasks)}
+                                      >
+                                        Edit Task
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={deleteClicked}
+                                      >
+                                        Delete Task
+                                      </button>
+                                    </AddBoardStyle>
+                                  )}
+                              </AddBoardStyle>
+                            </>
+                          )}{" "}
+                        {editTask.delete &&
+                          board[taskClicked.boardIndex].name === name &&
+                          tasks[taskClicked.taskIndex].title === title && (
+                            <>
+                              <AddBoardStyle className="delPop">
+                                <h1>Delete this task?</h1>
+                                <p>
+                                  Are you sure you want to delete the '{title}'
+                                  task and its subtasks? This action cannot be
+                                  reversed.
+                                </p>
+                                <div className="btns">
+                                  <button
+                                    onClick={() =>
+                                      handleTaskDelete({
+                                        title,
+                                        status,
+                                        colName: name,
+                                      })
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                  <button type="button" onClick={cancelClicked}>
+                                    Cancel
+                                  </button>
+                                </div>
+                              </AddBoardStyle>
+                            </>
+                          )}
+                        {editTask.edit &&
+                          board[taskClicked.boardIndex].name === name &&
+                          tasks[taskClicked.taskIndex].title === title && (
+                            <>
+                              <EditTask
+                                title={title}
+                                description={description}
+                                subtasks={subtasks}
+                                status={name}
+                                board={board}
+                                index={taskClicked.taskIndex}
+                                boardIndex={taskClicked.boardIndex}
+                                name={name}
+                                setEditTask={setEditTask}
+                              />
+                            </>
+                          )}
+                      </div>
+                    );
+                  }
+                )}
               </div>
-            ) : (
-              <EmptyBoard key={name} boardName={boardName} />
-            )
-          )
+            </div>
+          ))
         ) : (
-          <h1>No board</h1>
+          <EmptyBoard boardName={boardName} />
         )}
-        {board && (
+        {board.length > 0 && (
           <>
             <div className="addCol status empty">
               <button onClick={handleAddCol}>+ New Column</button>

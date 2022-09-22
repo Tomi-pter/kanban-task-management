@@ -4,7 +4,8 @@ import { Empty } from "./styled/BoardStyled";
 import EditBoard from "./EditBoard";
 
 function EmptyBoard({ boardName, columns, boardIndex }) {
-  document.querySelector(".addCol.empty").style.display = "none";
+  let addColEmpty = document.querySelector(".addCol.empty");
+  addColEmpty && (addColEmpty.style.display = "none");
 
   const [column, setColumn] = useState(false);
 

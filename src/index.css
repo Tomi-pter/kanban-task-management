@@ -7,6 +7,7 @@
 :root {
     --white: rgb(255, 255, 255);
     --main-purple: rgb(99, 95, 199);
+    --main-50purple: rgba(99, 95, 199, .5);
     --light-purple: rgba(99, 95, 199, .1);
     --bg-grey: rgb(244, 247, 253);
     --medium-grey: rgb(130, 143, 163);
@@ -24,27 +25,36 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.board {
+.board,
+.mainBoard,
+body,
+main {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.board::-webkit-scrollbar {
+.board::-webkit-scrollbar,
+.mainBoard::-webkit-scrollbar,
+body::-webkit-scrollbar,
+main::-webkit-scrollbar {
     display: none;
 }
 
 .edit::-webkit-scrollbar,
-.addTask::-webkit-scrollbar {
+.addTask::-webkit-scrollbar,
+.brdNames::-webkit-scrollbar {
     width: 15px;
 }
 
 .addTask::-webkit-scrollbar-track,
-.edit::-webkit-scrollbar-track {
+.edit::-webkit-scrollbar-track,
+.brdNames::-webkit-scrollbar-track {
     border-radius: 7.5px;
 }
 
 .addTask::-webkit-scrollbar-thumb,
-.edit::-webkit-scrollbar-thumb {
+.edit::-webkit-scrollbar-thumb,
+.brdNames::-webkit-scrollbar-thumb {
     border-radius: 7.5px;
     background-color: var(--light-purple);
 }
