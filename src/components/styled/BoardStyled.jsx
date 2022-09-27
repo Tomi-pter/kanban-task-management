@@ -94,8 +94,10 @@ export const Empty = styled.section`
     transition: all 500ms;
   }
 
-  &.emptyBoard.sidebar {
-    margin-left: 150px;
+  @media screen and (min-width: 641px) {
+    &.emptyBoard.sidebar {
+      margin-left: 150px;
+    }
   }
 
   h2 {
@@ -124,6 +126,7 @@ export const BoardStyle = styled.section`
   width: auto;
   padding: 2rem;
   z-index: 2;
+  margin-left: 0;
   transition: all 500ms;
 
   @media screen and (min-width: 641px) {
@@ -352,9 +355,12 @@ export const AddBoardStyle = styled.section`
   }
   @media screen and (max-height: 800px) {
     &.edit {
-      bottom: -30%;
+      /* bottom: -30%; */
+      bottom: -3rem;
       top: 55%;
     }
+    /* &.edit.aNB {
+    } */
     &.addTask {
       bottom: -40%;
     }

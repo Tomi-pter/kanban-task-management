@@ -190,6 +190,7 @@ export const HeaderStyle = styled.header`
         transition: all 500ms;
         padding-block: 1rem;
         padding-right: 3rem;
+        cursor: pointer;
 
         &:hover {
           background-color: var(--light-purple);

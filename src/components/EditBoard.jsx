@@ -4,7 +4,7 @@ import { editBoard } from "../store/board";
 import close from "../assets/icon-cross.svg";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
 
-function EditBoard({ boardName, columns, setEditBoard }) {
+function EditBoard({ boardName, columns, setEditBoard, setColumn, setAddCol }) {
   const dispatch = useDispatch();
   const [newBoard, setNewBoard] = useState({
     name: boardName,
@@ -65,6 +65,12 @@ function EditBoard({ boardName, columns, setEditBoard }) {
     }
   };
 
+  const handleDimClicked = () => {
+    setColumn && setColumn(false);
+    setAddCol && setAddCol(false);
+    document.querySelector("header").style.zIndex = 10;
+  };
+
   return (
     <>
       <AddBoardStyle className="edit">
@@ -108,7 +114,7 @@ function EditBoard({ boardName, columns, setEditBoard }) {
           </form>
         </div>
       </AddBoardStyle>
-      <Dim className="clicked" />
+      <Dim className="clicked" onClick={handleDimClicked} />
     </>
   );
 }

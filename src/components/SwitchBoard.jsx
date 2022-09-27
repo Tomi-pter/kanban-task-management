@@ -27,6 +27,7 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
   const [checked, setChecked] = useState("");
 
   const handleAddBoardClicked = () => {
+    // setBoardChanged(false);
     setAddBoard(true);
     document.querySelector(".switch").style.display = "none";
   };
@@ -56,6 +57,11 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
     setBoardChanged(false);
   };
 
+  const handleBoardSelected = (bName) => {
+    pickBoard(bName);
+    handleDimClicked();
+  };
+
   return (
     <>
       <AddBoardStyle className={`switch ${sidebar ? "sideBar" : "hideBar"}`}>
@@ -67,7 +73,7 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
                 <button
                   type="button"
                   key={board.name}
-                  onClick={() => pickBoard(board.name)}
+                  onClick={() => handleBoardSelected(board.name)}
                   className={board.name === activeBoard ? "active" : ""}
                 >
                   <img src={boardBtn} alt=" " />
@@ -106,7 +112,9 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
           </div>
         </div>
       </AddBoardStyle>
-      {addBoard && <AddBoard setAddBoard={setAddBoard} />}
+      {addBoard && (
+        <AddBoard setAddBoard={setAddBoard} setBoardChanged={setBoardChanged} />
+      )}
       <Dim className="clicked switchBrd" onClick={handleDimClicked} />
     </>
   );

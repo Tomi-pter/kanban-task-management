@@ -22,7 +22,7 @@ function Board() {
     boardIndex: "",
     taskIndex: "",
   });
-  const [editBoard, setEditBoard] = useState(false);
+  // const [editBoard, setEditBoard] = useState(false);
 
   const stateBoard = useSelector((store) => store.board[0]);
   const boardName = useSelector((store) => store.board[1]);
@@ -150,7 +150,7 @@ function Board() {
   const handleAddCol = () => {
     setAddCol(true);
     document.querySelector("header").style.zIndex = -1;
-    setEditBoard(!editBoard);
+    // setEditBoard(!editBoard);
   };
 
   useEffect(() => {
@@ -289,6 +289,7 @@ function Board() {
                 boardName={boardName}
                 columns={boardCols}
                 boardIndex={boardIndex}
+                setAddCol={setAddCol}
               />
             )}
           </>

@@ -136,8 +136,8 @@ function Header() {
               <img src={logoDark} alt="logo" className="logo desktop light" />
             </div>
             <SwitchBoard sidebar={sideBar} />
-            <div className="hide">
-              <button onClick={handleSidebar}>
+            <div className="hide" onClick={handleSidebar}>
+              <button>
                 <img src={hide} alt="hide sidebar" />
                 <span>Hide Sidebar</span>
               </button>

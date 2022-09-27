@@ -15,7 +15,7 @@ function EmptyBoard({ boardName, columns, boardIndex }) {
         <h2>This board is empty. Create a new column to get started.</h2>
         <Button onClick={() => setColumn(true)}>+ Add New Column</Button>
       </Empty>
-      {column && <EditBoard boardName={boardName} />}
+      {column && <EditBoard boardName={boardName} setColumn={setColumn} />}
     </>
   );
 }
