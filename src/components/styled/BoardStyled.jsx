@@ -64,6 +64,10 @@ export const MainStyle = styled.main`
       .add {
         background-color: var(--white);
         color: var(--main-purple);
+
+        &:hover {
+          background-color: var(--white-hover);
+        }
       }
     }
 
@@ -73,6 +77,10 @@ export const MainStyle = styled.main`
       }
       .btns button:last-child {
         background-color: var(--white);
+
+        &:hover {
+          background-color: var(--white-hover);
+        }
       }
     }
   }
@@ -405,6 +413,10 @@ export const AddBoardStyle = styled.section`
 
     button:last-child {
       color: var(--red);
+
+      &:hover {
+        color: var(--red-hover);
+      }
     }
   }
   &.viewOpt.header {
@@ -440,6 +452,10 @@ export const AddBoardStyle = styled.section`
     button:first-of-type {
       background-color: var(--red);
       color: var(--white);
+
+      &:hover {
+        background-color: var(--red-hover);
+      }
     }
     button:last-child {
       background-color: var(--light-purple);

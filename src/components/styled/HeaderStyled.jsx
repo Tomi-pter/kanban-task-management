@@ -10,7 +10,7 @@ export const HeaderStyle = styled.header`
 
   .add button:disabled {
     opacity: 0.5;
-    cursor: default;
+    cursor: not-allowed;
   }
 
   &.dark {
@@ -67,6 +67,10 @@ export const HeaderStyle = styled.header`
       .add {
         background-color: var(--white);
         color: var(--main-purple);
+
+        &:hover {
+          background-color: var(--white-hover);
+        }
       }
     }
 
@@ -76,6 +80,10 @@ export const HeaderStyle = styled.header`
       }
       .btns button:last-child {
         background-color: var(--white);
+
+        &:hover {
+          background-color: var(--white-hover);
+        }
       }
     }
   }

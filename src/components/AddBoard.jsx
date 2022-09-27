@@ -50,13 +50,18 @@ function AddBoard({ setAddBoard, setBoardChanged }) {
       setNewBoard({ name: "", columns: [{ name: "", tasks: [] }] });
       setAddBoard(false);
       setBoardChanged(false);
-      document.querySelector(".switch").style.display = "block";
+      document
+        .querySelectorAll(".switch")
+        .forEach((swi) => (swi.style.zIndex = 1));
     }
     // window.location.reload();
   };
 
   const handleDimClicked = () => {
     setAddBoard(false);
+    document
+      .querySelectorAll(".switch")
+      .forEach((swi) => (swi.style.zIndex = 1));
   };
 
   return (

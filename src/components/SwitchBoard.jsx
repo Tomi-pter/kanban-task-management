@@ -29,7 +29,9 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
   const handleAddBoardClicked = () => {
     // setBoardChanged(false);
     setAddBoard(true);
-    document.querySelector(".switch").style.display = "none";
+    document
+      .querySelectorAll(".switch")
+      .forEach((swi) => (swi.style.zIndex = -1));
   };
 
   const handleToggle = () => {

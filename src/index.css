@@ -6,6 +6,7 @@
 
 :root {
     --white: rgb(255, 255, 255);
+    --white-hover: rgba(255, 255, 255, 0.726);
     --main-purple: rgb(99, 95, 199);
     --main-50purple: rgba(99, 95, 199, .5);
     --light-purple: rgba(99, 95, 199, .1);
@@ -14,6 +15,7 @@
     --light-grey: rgba(130, 143, 163, .1);
     --dim: rgba(0, 0, 0, 0.5);
     --red: rgb(234, 85, 85);
+    --red-hover: rgba(234, 85, 85, 0.728);
     --bg-dark: rgb(32, 33, 44);
     --bg-50dark: rgb(43, 44, 55);
 }

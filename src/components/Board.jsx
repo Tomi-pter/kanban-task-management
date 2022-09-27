@@ -163,7 +163,12 @@ function Board() {
       <BoardStyle className="mainBoard">
         {board.length > 0 ? (
           board.map(({ name, tasks }) => (
-            <div className="status" key={name}>
+            <div
+              className="status"
+              key={name}
+              role="group"
+              aria-labelledby={`${name} section`}
+            >
               <h2>
                 <span className="circle"></span> {name} ({tasks.length})
               </h2>
@@ -175,6 +180,13 @@ function Board() {
                         className="tasks"
                         key={title}
                         onClick={() => handleTaskClick(tasks, title, name)}
+                        tabIndex={0}
+                        role="group"
+                        aria-label="task"
+                        onKeyUp={(e) => {
+                          e.key === "Enter" &&
+                            handleTaskClick(tasks, title, name);
+                        }}
                       >
                         <h3>{title}</h3>
                         <p>
