@@ -53,6 +53,7 @@ function AddBoard({ setAddBoard, setBoardChanged }) {
       document
         .querySelectorAll(".switch")
         .forEach((swi) => (swi.style.zIndex = 1));
+      document.querySelector("body").style.overflow = "auto";
     }
     // window.location.reload();
   };
@@ -62,6 +63,7 @@ function AddBoard({ setAddBoard, setBoardChanged }) {
     document
       .querySelectorAll(".switch")
       .forEach((swi) => (swi.style.zIndex = 1));
+    document.querySelector("body").style.overflow = "auto";
   };
 
   return (

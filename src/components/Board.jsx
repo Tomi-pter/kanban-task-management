@@ -72,6 +72,7 @@ function Board() {
     });
     setViewTask(true);
     document.querySelector("header").style.zIndex = -1;
+    document.querySelector("body").style.overflow = "hidden";
     dispatch(setSideBar(false));
     console.log(viewTask);
   };
@@ -145,11 +146,13 @@ function Board() {
       delete: false,
     });
     document.querySelector("header").style.zIndex = 10;
+    document.querySelector("body").style.overflow = "auto";
   };
 
   const handleAddCol = () => {
     setAddCol(true);
     document.querySelector("header").style.zIndex = -1;
+    document.querySelector("body").style.overflow = "hidden";
     // setEditBoard(!editBoard);
   };
 
@@ -278,6 +281,9 @@ function Board() {
                                 boardIndex={taskClicked.boardIndex}
                                 name={name}
                                 setEditTask={setEditTask}
+                                setViewTask={setViewTask}
+                                setTaskClicked={setTaskClicked}
+                                handleDimClicked={handleDimClicked}
                               />
                             </>
                           )}
