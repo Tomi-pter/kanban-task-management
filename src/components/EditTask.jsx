@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTask, editTask } from "../store/board";
+import { addTask, deleteTask, editTask } from "../store/board";
 import { AddBoardStyle, Dim } from "./styled/BoardStyled";
 import close from "../assets/icon-cross.svg";
 
@@ -14,6 +14,7 @@ function EditTask({
   board,
   boardIndex,
   name,
+  handleDimClicked,
 }) {
   const dispatch = useDispatch();
   const data = useSelector((store) => store.board[0].boards);
@@ -82,16 +83,22 @@ function EditTask({
     if (newTask.status === status) {
       dispatch(editTask(newTask));
     } else {
-      dispatch(editTask(newTask));
       dispatch(deleteTask({ title, status }));
+      dispatch(addTask(newTask));
     }
-    setEditTask(false);
-    setNewTask({
-      title: title,
-      description: description,
-      status: status,
-      subtasks: subtasks,
-      colName: name,
+    // handleDimClicked();
+    // setNewTask({
+    //   title: title,
+    //   description: description,
+    //   status: status,
+    //   subtasks: subtasks,
+    //   colName: name,
+    // });
+    setEditTask({
+      ...editTask,
+      options: false,
+      edit: false,
+      delete: false,
     });
     window?.location?.reload();
   };
