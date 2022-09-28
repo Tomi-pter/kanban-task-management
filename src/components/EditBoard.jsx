@@ -61,7 +61,6 @@ function EditBoard({ boardName, columns, setEditBoard, setColumn, setAddCol }) {
         options: false,
       });
       document.querySelector(".dim").classList.remove("clicked");
-      document.querySelector("body").style.overflow = "auto";
       setNewBoard({ name: boardName, columns: columns });
     }
   };
@@ -70,7 +69,6 @@ function EditBoard({ boardName, columns, setEditBoard, setColumn, setAddCol }) {
     setColumn && setColumn(false);
     setAddCol && setAddCol(false);
     document.querySelector("header").style.zIndex = 10;
-    document.querySelector("body").style.overflow = "auto";
   };
 
   return (

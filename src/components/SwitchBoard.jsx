@@ -57,7 +57,6 @@ function SwitchBoard({ sidebar, setBoardChanged }) {
 
   const handleDimClicked = () => {
     setBoardChanged(false);
-    document.querySelector("body").style.overflow = "auto";
   };
 
   const handleBoardSelected = (bName) => {

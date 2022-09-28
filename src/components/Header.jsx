@@ -82,7 +82,6 @@ function Header() {
 
   const handleAddTask = () => {
     setAddTask(true);
-    document.querySelector("body").style.overflow = "hidden";
   };
 
   const handleDimClicked = () => {
@@ -93,7 +92,6 @@ function Header() {
       options: false,
     });
     document.querySelector(".dim").classList.remove("clicked");
-    document.querySelector("body").style.overflow = "auto";
   };
 
   useEffect(() => {

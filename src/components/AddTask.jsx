@@ -72,13 +72,11 @@ function AddTask({ setAddTask }) {
       subtasks: [{ title: "", isCompleted: false }],
     });
     setAddTask(false);
-    document.querySelector("body").style.overflow = "auto";
   };
   console.log(data);
 
   const handleDimClicked = () => {
     setAddTask(false);
-    document.querySelector("body").style.overflow = "auto";
   };
 
   return (
