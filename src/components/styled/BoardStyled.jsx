@@ -126,7 +126,7 @@ export const Empty = styled.section`
   }
 `;
 
-export const BoardStyle = styled.section`
+export const BoardStyle = styled.ul`
   display: flex;
   /* overflow-x: scroll; */
   gap: 1.5rem;
@@ -135,7 +135,15 @@ export const BoardStyle = styled.section`
   padding: 2rem;
   z-index: 2;
   margin-left: 0;
+  margin: 0;
+  list-style: none;
   transition: all 500ms;
+
+  ul.status {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
 
   @media screen and (min-width: 641px) {
     &.sideBar {

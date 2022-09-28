@@ -163,7 +163,7 @@ function Board() {
       <BoardStyle className="mainBoard">
         {board.length > 0 ? (
           board.map(({ name, tasks }) => (
-            <div
+            <li
               className="status"
               key={name}
               role="group"
@@ -172,11 +172,11 @@ function Board() {
               <h2>
                 <span className="circle"></span> {name} ({tasks.length})
               </h2>
-              <div className={`status ${tasks?.length === 0 ? "empty" : ""}`}>
+              <ul className={`status ${tasks?.length === 0 ? "empty" : ""}`}>
                 {tasks?.map(
                   ({ title, subtasks, description, status }, index) => {
                     return (
-                      <div
+                      <li
                         className="tasks"
                         key={title}
                         onClick={() => handleTaskClick(tasks, title, name)}
@@ -281,12 +281,12 @@ function Board() {
                               />
                             </>
                           )}
-                      </div>
+                      </li>
                     );
                   }
                 )}
-              </div>
-            </div>
+              </ul>
+            </li>
           ))
         ) : (
           <EmptyBoard boardName={boardName} />
