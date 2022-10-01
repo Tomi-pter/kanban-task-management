@@ -167,7 +167,7 @@ function Board() {
               className="status"
               key={name}
               role="group"
-              aria-labelledby={`${name} section`}
+              aria-label={`${name} section`}
             >
               <h2>
                 <span className="circle"></span> {name} ({tasks.length})
@@ -181,7 +181,7 @@ function Board() {
                         key={title}
                         onClick={() => handleTaskClick(tasks, title, name)}
                         tabIndex={0}
-                        role="group"
+                        role="list"
                         aria-label="task"
                         onKeyUp={(e) => {
                           e.key === "Enter" &&
@@ -204,7 +204,9 @@ function Board() {
                                   subtasks={subtasks}
                                   board={board}
                                   status={name}
+                                  viewTask={viewTask}
                                   setViewTask={setViewTask}
+                                  handleDimClicked={handleDimClicked}
                                 />
                                 <button
                                   type="button"
