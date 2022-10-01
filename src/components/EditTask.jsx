@@ -154,7 +154,7 @@ function EditTask({
               name="status"
               id="status"
               value={newTask.status}
-              onChange={setOption}
+              onChange={(e) => setOption(e)}
             >
               {board.map((brd, index) => (
                 <option key={index} value={brd.name}>
